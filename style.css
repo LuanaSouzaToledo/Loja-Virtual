@@ -1,0 +1,55 @@
+/* Estilos gerais */
+body {
+  font-family: sans-serif;
+}
+
+/* Estilos do cabeçalho */
+header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+}
+
+header h1 {
+  margin: 0;
+}
+
+header nav {
+  float: right;
+}
+
+header nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+header nav ul li {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+header nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Estilos da seção de produtos em destaque */
+.produtos {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.produtos li {
+  width: 30%;
+  margin: 10px;
+  text-align: center;
+}
+
+.produtos li img {
+  width: 80%;
+  margin: 10px 0;
+}
+
+/* Estilos do rod
+
