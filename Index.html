@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Loja Virtual</title>
+  <meta name="description" content="Uma loja virtual simples">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Loja Virtual</h1>
+    <nav>
+      <ul>
+        <li><a href="#">Início</a></li>
+        <li><a href="#">Produtos</a></li>
+        <li><a href="#">Sobre</a></li>
+        <li><a href="#">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h2>Produtos em Destaque</h2>
+    <ul class="produtos">
+      <li>
+        <img src="produto1.jpg" alt="Produto 1">
+        <h3>Produto 1</h3>
+        <p>R$20</p>
+        <button onclick="adicionarAoCarrinho(1)">Adicionar ao Carrinho</button>
+      </li>
+      <li>
+        <img src="produto2.jpg" alt="Produto 2">
+        <h3>Produto 2</h3>
+        <p>R$30</p>
+        <button onclick="adicionarAoCarrinho(2)">Adicionar ao Carrinho</button>
+      </li>
+      <li>
+        <img src="produto3.jpg" alt="Produto 3">
+        <h3>Produto 3</h3>
+        <p>R$40</p>
+        <button onclick="adicionarAoCarrinho(3)">Adicionar ao Carrinho</button>
+      </li>
+    </ul>
+    <h2>Meu Carrinho</h2>
+    <table id="carrinho">
+      <tr>
+        <th>Produto</th>
+        <th>Preço</th>
+        <th>Quantidade</th>
+        <th>Total</th>
+      </tr>
+    </table>
+    <p>Total do Pedido: R$<span id="total-pedido">0</span></p>
+    <form onsubmit="return validarFormulario()">
+      <h2>Informações de Entrega</h2>
+      <label for="nome">Nome:</label><br>
+      <input type="text" id="nome" required><br>
+            <label for="email">Email:</label><br>
+      <input type="email" id="email" required><br>
+      <label for="endereco">Endereço:</label><br>
+      <input type="text" id="endereco" required><br>
+      <h2>Informações de Pagamento</h2>
+      <label for="cartao">Número do Cartão:</label><br>
+      <input type="text" id="cartao" required><br>
+      <button type="submit">Finalizar Pedido</button>
+    </form>
+  </main>
+  <footer>
+    <p>Copyright 2022 Loja Virtual</p>
+    <p>
+      Contato: <a href="mailto:contato@lojavirtual.com">contato@lojavirtual.com</a>
+    </p>
+  </footer>
+  <script>
+    var produtos = [
+      {id: 1, nome: "Produto 1", preco: 20},
+      {id: 2, nome: "Produto 2", preco: 30},
+      {id: 3, nome: "Produto 3", preco: 40}
+    ];
+    
+    var carrinho = [];
+    
+    function adicionarAoCarrinho(id) {
+      // Obter o produto pelo ID
+      var produto = produtos.find(function(p) { return p.id == id });
+      
+      // Verificar se o produto já está no carrinho
+      var itemCarrinho = carrinho.find(function(p) { return p.id == id });
+      
+      if (itemCarrinho) {
+        // Se o produto já estiver no carrinho, adicionar mais uma unidade
+        itemCarrinho.quantidade++;
+      } else {
+        // Se o produto ainda não estiver no carrinho, adicioná-lo com uma unidade
+        carrinho.push({id: produto.id, nome: produto.nome, preco: produto.preco, quantidade: 1});
+      }
+      
+      // Atualizar a tabela do carrinho
+      atualizarCarrinho();
+    }
+    
+    function atualizarCarrinho() {
+      // Obter a tabela do carrinho
+      var tabelaCarrinho = document.getElementById("carrinho");
+      
+      // Limpar a tabela do carrinho
+      tabelaCarrinho.innerHTML = "";
+      
+      // Adicionar os cabeçalhos da tabela
+      tabelaCarrinho.innerHTML = "<tr><th>Produto</th><th>Preço</th><th>Quantidade</th><th>Total</th></tr>";
+      
+      // Adicionar cada item do carrinho à tabela
+      carrinho.forEach(function(item) {
+            var linha = document.createElement("tr");
+      linha.innerHTML = "<td>" + item.nome + "</td>" +
+                        "<td>R$" + item.preco + "</td>" +
+                        "<td>" + item.quantidade + "</td>" +
+                        "<td>R$" + (item.preco * item.quantidade) + "</td>";
+      tabelaCarrinho.appendChild(linha);
+    });
+    
+    // Calcular o total do pedido
+    var total = carrinho.reduce(function(total, item) {
+      return total + (item.preco * item.quantidade);
+    }, 0);
+    
+    // Atualizar o total do pedido na página
+    document.getElementById("total-pedido").innerHTML = total;
+  }
+  
+  function validarFormulario() {
+    // Verificar se o carrinho está vazio
+    if (carrinho.length == 0) {
+      alert("Adicione pelo menos um produto ao carrinho antes de finalizar o pedido.");
+      return false;
+    }
+    
+    // Obter todos os campos obrigatórios do formulário
+    var nome = document.getElementById("nome").value;
+    var email = document.getElementById("email").value;
+          var endereco = document.getElementById("endereco").value;
+    var cartao = document.getElementById("cartao").value;
+    
+    // Verificar se todos os campos obrigatórios foram preenchidos
+    if (nome == "" || email == "" || endereco == "" || cartao == "") {
+      alert("Por favor, preencha todos os campos obrigatórios do formulário.");
+      return false;
+    }
+    
+    // Se todos os campos foram preenchidos, enviar o formulário
+    return true;
+  }
+</script>
+</body>
+</html>
+
